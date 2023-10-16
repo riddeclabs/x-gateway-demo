@@ -43,5 +43,6 @@
     "*.{js,jsx,pug}": [
       "eslint --fix"
     ]
-  }
+  },
+  "version": "1.1.0"
 }

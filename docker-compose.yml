@@ -1,0 +1,13 @@
+version: "1"
+
+services:
+  app:
+    container_name: x-gateway-demo
+    ports:
+      - "7000:7000"
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    command: npm run start

@@ -1,0 +1,29 @@
+env:
+  browser: true
+  commonjs: true
+  es2021: true
+extends:
+  - airbnb-base
+  - eslint:recommended
+parserOptions:
+  ecmaVersion: latest
+plugins:
+  - pug
+rules:
+  {
+    import/extensions: "off",
+    import/no-unresolved: "off",
+    import/order:
+      [
+        "error",
+        {
+          "alphabetize": { "order": "asc", "caseInsensitive": true },
+          "groups":
+            ["builtin", "external", "internal", "parent", "sibling", "index"],
+          "newlines-between": "always",
+        },
+      ],
+    import/prefer-default-export: "off",
+    indent: ["error", 2],
+    quotes: ["error", "double"],
+  }

@@ -1,0 +1,121 @@
+name: Check Dev
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  ACTION_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  code:
+    name: Code Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+
+      - name: Cache
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+  release:
+    name: Release
+    needs: [code]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+
+      - name: Cache
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Verify
+        run: npm audit signatures
+
+      - name: Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+  notify:
+    if: ${{ always() }}
+    name: Notify
+    needs: [code, release]
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Send success notification
+        if: ${{ !contains(join(needs.*.result, ','), 'failure') }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: dockerhub
+          SLACK_COLOR: "#22c55e"
+          SLACK_TITLE: Workflow Result
+          SLACK_MESSAGE: All good! The merge into the dev branch was _successful_.
+          SLACK_FOOTER: ${{ env.ACTION_RUN_URL }}
+          SLACK_WEBHOOK: ${{ secrets.DOCKER_SLACK_WEBHOOK }}
+          MSG_MINIMAL: actions url,commit
+
+      - name: Send failure notification
+        if: ${{ contains(join(needs.*.result, ','), 'failure') }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: dockerhub
+          SLACK_COLOR: "#ef4444"
+          SLACK_TITLE: Workflow Result
+          SLACK_MESSAGE: |
+            Oh, bloody hell! The merge into the dev branch was _unsuccessful_.
+            ```
+            Code Check: ${{ needs.code.result }}
+            Release Check: ${{ needs.release.result }}
+            ```
+          SLACK_FOOTER: ${{ env.ACTION_RUN_URL }}
+          SLACK_WEBHOOK: ${{ secrets.DOCKER_SLACK_WEBHOOK }}
+          MSG_MINIMAL: actions url,commit

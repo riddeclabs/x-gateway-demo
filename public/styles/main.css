@@ -11879,4 +11879,10 @@ textarea.form-control-lg {
   font-size: 500%;
 }
 
+.qrCode {
+  --size: 100px;
+  height: var(--size);
+  width: var(--size);
+}
+
 /*# sourceMappingURL=main.css.map */

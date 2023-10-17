@@ -1,0 +1,37 @@
+extends container 
+
+block content 
+  .mb-4.text-center
+    p.fs-6.text-secondary Pay with QR code
+    img.qrCode.mb-3.shadow-sm.rounded-1(src=`${qrCodeURL}`, alt="qrCode")
+    .mb-1.fs-6.text-secondary Pay to 
+      //- span= currency
+      span= BTC
+      |  address
+    .d-flex.align-items-center.justify-content-center
+      div(style="min-width: 0")= address 
+      button#address-copy.script-only.btn.btn-link.d-flex.align-items-center.px-2.text-decoration-none.border-0(data-copy=`${address}` data-bs-toggle="tooltip" data-bs-title="Copy to clipboard"  hidden) 
+        span.script-only.material-symbols-outlined.fs-5.text-secondary(hidden) content_copy
+
+  .mb-3.p-3.py-2.border.border-1.rounded-1.bg-gray
+    .mb-1.text-secondary Pay with
+    .d-flex.align-items-center
+      .fs-4.fw-medium(style="min-width: 0") 
+        span#exchange-value #{exchangeValue} #{currencyName}
+      button#exchange-copy.script-only.btn.btn-link.d-flex.align-items-center.px-2.border-0.text-decoration-none(data-copy=null data-bs-toggle="tooltip" data-bs-title="Copy to clipboard" hidden) 
+        span.script-only.material-symbols-outlined.fs-5.text-secondary(hidden) content_copy
+
+  .mb-4.p-3.py-2.border.border-1.rounded-1.bg-gray
+    .mb-1.text-secondary Receive amount
+    .fs-4.fw-medium 
+      span#amount #{amount} 
+      |  #{baseCurrency}
+    #exchange-rate.mb-0.fs-6.text-secondary.exchange-rate 1 #{currencyName} = #{exchangeRate} #{baseCurrency}
+
+  .d-flex.align-items-center.p-3.py-2.border.border-1.rounded-1.fs-6.bg-warning.text-truncate.mb-4 
+    span.material-symbols-outlined.me-1.fs-4 report 
+    p.text-truncate.m-0 Only send 
+      span= currencyName
+      |  to this address.
+
+  .btn.btn-primary.w-100.mb-4.p-2.fw-bold.text-truncate Awaiting Payment

@@ -9,12 +9,13 @@
 .error-text {
   font-size: 500%;
 }
-// .qrCode {
-//   --size: 164px;
 
-//   height: var(--size);
-//   width: var(--size);
-// }
+.qrCode {
+  --size: 100px;
+
+  height: var(--size);
+  width: var(--size);
+}
 
 // .dropdown-toggle {
 //   &:active,

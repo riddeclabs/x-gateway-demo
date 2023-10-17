@@ -1,4 +1,69 @@
 extends container 
 
+include mixins/icons
+
 block content
-  
+  form(action="")
+    .mb-4.p-3.py-2.border.border-1.rounded-1.bg-gray.w-100
+      label(for="get-currency").pb-2.text-secondary You get
+
+      .input-group.mb-3
+        button.btn.btn-light.border.border-1.dropdown-toggle.d-flex.align-items-center(type="button" data-bs-toggle="dropdown") 
+          #currency-selected.d-flex.align-items-center.me-2
+            each item, index in currencies.length ? currencies : []
+              if index == 0
+                +icons.me-2(svg-icon-name=item.currency selected)
+              else 
+                +icons.me-2(svg-icon-name=item.currency hidden)
+
+            span= currencies.length ? currencies[0].name : "  "
+             
+        ul#currency-list.dropdown-menu.bg-light
+            each item in currencies.length ? currencies : []
+              li.dropdown-item.d-flex.justify-content-between(data-currency-item=item.currency)
+                div.d-flex.align-items-center.fw-medium
+                  +icons.me-2(svg-icon-name=item.currency)
+                  span= item.name
+                div.text-secondary(data-exchange-value=item.currency)
+
+        input.form-control.bg-light(type="text")
+    
+    .mb-4.p-3.py-2.border.border-1.rounded-1.bg-gray.w-100
+      label(for="pay-currency").pb-2.text-secondary You pay
+
+      .input-group.mb-3
+        button.btn.btn-light.border.border-1.dropdown-toggle.d-flex.align-items-center(type="button" data-bs-toggle="dropdown") 
+          #currency-selected.d-flex.align-items-center.me-2
+            each item, index in currencies.length ? currencies : []
+              if index == 0
+                +icons.me-2(svg-icon-name=item.currency selected)
+              else 
+                +icons.me-2(svg-icon-name=item.currency hidden)
+
+            span= currencies.length ? currencies[0].name : "  "
+             
+        ul#currency-list.dropdown-menu.bg-light
+            each item in currencies.length ? currencies : []
+              li.dropdown-item.d-flex.justify-content-between(data-currency-item=item.currency)
+                div.d-flex.align-items-center.fw-medium
+                  +icons.me-2(svg-icon-name=item.currency)
+                  span= item.name
+                div.text-secondary(data-exchange-value=item.currency)
+
+        input.form-control.bg-light(type="text")
+
+      #exchange-rate.mb-0.fs-6.text-secondary  ...
+      
+    .d-flex.align-items-center.p-3.py-2.border.border-1.rounded-1.fs-6.bg-warning.text-truncate.mb-4 
+      span.material-symbols-outlined.me-1.fs-4 report 
+      p.text-truncate.m-0 No hidden fees
+
+    .mb-4.fs-6.text-center.text-secondary  
+      | By proceeding with this deposit you are agreeing with 
+      a.link.text-decoration-none.text-tertiary(href="https://xgateway.tech/privacy-policy/") Privacy Policy
+      |  & 
+      a.link.text-decoration-none.text-tertiary(href="https://xgateway.tech/terms-of-use/") Terms of Use.
+
+    button.btn.btn-primary.w-100.p-2.fw-bold(type="submit") Proceed
+
+

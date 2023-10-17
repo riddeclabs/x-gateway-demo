@@ -1,0 +1,82 @@
+const currencies = [
+  {
+    currency: "BTC",
+    name: "BTC",
+    network: "Bitcoin",
+    providerId: 0,
+    minDeposit: 0.0001,
+    blockchainUrl: "https://www.blockchain.com/explorer/transactions/btc/",
+  },
+  {
+    currency: "ETH",
+    name: "ETH",
+    network: "Ethereum",
+    providerId: 0,
+    minDeposit: 0.005,
+    blockchainUrl: "https://www.blockchain.com/explorer/transactions/eth/",
+  },
+  {
+    currency: "USDT",
+    name: "USDT (ETH)",
+    network: "Ethereum",
+    providerId: 0,
+    minDeposit: 5,
+    blockchainUrl: "https://www.blockchain.com/explorer/transactions/eth/",
+  },
+  {
+    currency: "USDC",
+    name: "USDC (ETH)",
+    network: "Ethereum",
+    providerId: 0,
+    minDeposit: 5,
+    blockchainUrl: "https://www.blockchain.com/explorer/transactions/eth/",
+  },
+  {
+    currency: "tUSDT",
+    name: "USDT (TRX)",
+    network: "Tron",
+    providerId: 0,
+    minDeposit: 5,
+    blockchainUrl: "https://tronscan.org/#/transaction/",
+  },
+  {
+    currency: "tUSDC",
+    name: "USDC (TRX)",
+    network: "Tron",
+    providerId: 0,
+    minDeposit: 5,
+    blockchainUrl: "https://tronscan.org/#/transaction/",
+  },
+  {
+    currency: "JPY",
+    name: "Japanese Yen",
+    network: "P2P",
+    providerId: 1,
+  },
+  {
+    currency: "INR",
+    name: "Indian Rupee",
+    network: "P2P",
+    providerId: 1,
+  },
+  {
+    currency: "KES",
+    name: "Kenyan Shilling",
+    network: "P2P",
+    providerId: 1,
+  },
+  {
+    currency: "UZS",
+    name: "Uzbekistani Som",
+    network: "P2P",
+    providerId: 1,
+  },
+  {
+    currency: "BDT",
+    name: "Bangladeshi taka",
+    network: "P2P",
+    providerId: 1,
+  },
+];
+
+module.exports = currencies;

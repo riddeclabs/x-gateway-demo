@@ -1,3 +1,5 @@
+const axios = require("axios");
+const config = require("config");
 const express = require("express");
 
 const baseCurrencies = require("../utils/baseCurrencies");
@@ -6,6 +8,8 @@ const currencies = require("../utils/currencies");
 const router = express.Router();
 const apiRouter = require("./api");
 
+const coreURL = config.get("coreURL");
+
 router.use("/api", apiRouter);
 
 // eslint-disable-next-line no-unused-vars
@@ -13,6 +17,47 @@ router.get("/", async (req, res, next) => res.render("step-one", {
   baseCurrencies,
   currencies,
 }));
+
+router.post("/step-two", async (req, res, next) => {
+  const { currency } = req.body;
+  const baseCurrency = req.body["base-currency"];
+  const baseAmount = req.body["base-currency-input-amount"];
+  const amount = req.body["currency-input-amount"];
+
+  try {
+    const { data } = await axios.post(
+      `${coreURL}/channels`,
+      { currency, customerId: "demo" },
+      { headers: { "x-api-key": "740136ee-b2ff-4e8d-8e8c-d09b2554acc3" } },
+    );
+
+    const { address, qrCodeURL } = data.data;
+
+    const { data: exchangeRate } = await axios.get(
+      `${coreURL}/exchange/rate`,
+      {
+        params: {
+          amount: 1,
+          source: baseCurrency,
+          target: currency,
+          direction: "toSource",
+        },
+      },
+    );
+
+    return res.render("step-two", {
+      currency,
+      baseCurrency,
+      baseAmount,
+      amount,
+      address,
+      qrCodeURL,
+      exchangeRate: exchangeRate.data,
+    });
+  } catch (error) {
+    return next(error);
+  }
+});
 
 // eslint-disable-next-line no-unused-vars
 router.get("/step-two", (req, res, next) => res.render("step-two", {

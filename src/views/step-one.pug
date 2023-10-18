@@ -3,7 +3,7 @@ extends container
 include mixins/icons
 
 block content
-  form(action="")
+  form(action="/step-two" method="POST")
     .mb-4.p-3.py-2.border.border-1.rounded-1.bg-gray.w-100
       label(for="get-currency").pb-2.text-secondary You get
 
@@ -61,7 +61,7 @@ block content
                     span= item.name
                   div.text-secondary(data-exchange-value=item.currency)
 
-        input#currency-input-amount.form-control.bg-light(name="currency-input-amount" type="text" disabled readonly value="0.00" defaultValue=0)
+        input#currency-input-amount.form-control.bg-light(name="currency-input-amount" type="text" readonly value="0.00" defaultValue=0)
 
       #exchange-rate.mb-0.fs-6.text-secondary  ...
       

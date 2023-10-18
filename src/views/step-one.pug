@@ -7,31 +7,35 @@ block content
     .mb-4.p-3.py-2.border.border-1.rounded-1.bg-gray.w-100
       label(for="get-currency").pb-2.text-secondary You get
 
-      .input-group.mb-3
+      .input-group.mb-2
+        input(type="hidden" name="base-currency" value=baseCurrencies[0].currency)
+
         button.btn.btn-light.border.border-1.dropdown-toggle.d-flex.align-items-center(type="button" data-bs-toggle="dropdown") 
-          #currency-selected.d-flex.align-items-center.me-2
-            each item, index in currencies.length ? currencies : []
+          #base-currency-selected.d-flex.align-items-center.me-2
+            each item, index in baseCurrencies
               if index == 0
                 +icons.me-2(svg-icon-name=item.currency selected)
               else 
                 +icons.me-2(svg-icon-name=item.currency hidden)
 
-            span= currencies.length ? currencies[0].name : "  "
+            span= baseCurrencies[0].currency
              
-        ul#currency-list.dropdown-menu.bg-light
-            each item in currencies.length ? currencies : []
-              li.dropdown-item.d-flex.justify-content-between(data-currency-item=item.currency)
+        ul#base-currency-list.dropdown-menu.bg-light
+            each item in baseCurrencies
+              li.dropdown-item.d-flex.justify-content-between(data-base-currency-item=item.currency)
                 div.d-flex.align-items-center.fw-medium
                   +icons.me-2(svg-icon-name=item.currency)
-                  span= item.name
+                  span= item.currency
                 div.text-secondary(data-exchange-value=item.currency)
 
-        input.form-control.bg-light(type="text")
+        input#base-currency-input-amount.form-control.bg-light(name="base-currency-input-amount" type="number" placeholder='0.00' defaultValue=0 min=0)
     
     .mb-4.p-3.py-2.border.border-1.rounded-1.bg-gray.w-100
       label(for="pay-currency").pb-2.text-secondary You pay
 
       .input-group.mb-3
+        input(type="hidden" name="currency" value=currencies.length ? currencies[0].currency : "")
+
         button.btn.btn-light.border.border-1.dropdown-toggle.d-flex.align-items-center(type="button" data-bs-toggle="dropdown") 
           #currency-selected.d-flex.align-items-center.me-2
             each item, index in currencies.length ? currencies : []
@@ -42,15 +46,22 @@ block content
 
             span= currencies.length ? currencies[0].name : "  "
              
-        ul#currency-list.dropdown-menu.bg-light
+        ul#currency-list.dropdown-menu.overflow-scroll.bg-light
             each item in currencies.length ? currencies : []
-              li.dropdown-item.d-flex.justify-content-between(data-currency-item=item.currency)
-                div.d-flex.align-items-center.fw-medium
-                  +icons.me-2(svg-icon-name=item.currency)
-                  span= item.name
-                div.text-secondary(data-exchange-value=item.currency)
+             if item.providerId === 0
+                li.dropdown-item.d-flex.justify-content-between(data-currency-item=item.currency)
+                  div.d-flex.align-items-center.fw-medium
+                    +icons.me-2(svg-icon-name=item.currency)
+                    span= item.name
+                  div.text-secondary(data-exchange-value=item.currency)
+             else
+               li.dropdown-item.justify-content-between(data-currency-item=item.currency hidden)
+                  div.d-flex.align-items-center.fw-medium
+                    +icons.me-2(svg-icon-name=item.currency)
+                    span= item.name
+                  div.text-secondary(data-exchange-value=item.currency)
 
-        input.form-control.bg-light(type="text")
+        input#currency-input-amount.form-control.bg-light(name="currency-input-amount" type="text" disabled readonly value="0.00" defaultValue=0)
 
       #exchange-rate.mb-0.fs-6.text-secondary  ...
       
@@ -67,3 +78,5 @@ block content
     button.btn.btn-primary.w-100.p-2.fw-bold(type="submit") Proceed
 
 
+block scripts 
+  script#script(src="/scripts/step-one.js" type="application/javascript" data-base-currencies=baseCurrencies data-currencies=currencies)

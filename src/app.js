@@ -2,6 +2,7 @@ const path = require("path");
 
 const compression = require("compression");
 const express = require("express");
+const logger = require("morgan");
 
 const app = express();
 
@@ -14,6 +15,11 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 app.use("/styles", express.static(path.join(__dirname, "../public/styles")));
+
+app.use("/scripts", express.static("node_modules/bootstrap/dist/js/"));
+
+app.use(logger("dev"));
+app.use(express.static(path.join(__dirname, "public")));
 
 const router = require("./routes");
 

@@ -2,23 +2,25 @@ const axios = require("axios");
 const config = require("config");
 const express = require("express");
 
+const { validate } = require("../middleware/validate");
 const baseCurrencies = require("../utils/baseCurrencies");
 const currencies = require("../utils/currencies");
+const { formatNumber } = require("../utils/formatter");
 
 const router = express.Router();
 const apiRouter = require("./api");
+const { postAddressSchema, addressSchema, exchangeRateSchema } = require("./schema");
 
 const coreURL = config.get("coreURL");
 
 router.use("/api", apiRouter);
 
-// eslint-disable-next-line no-unused-vars
-router.get("/", async (req, res, next) => res.render("step-one", {
+router.get("/", async (_req, res) => res.render("step-one", {
   baseCurrencies,
   currencies,
 }));
 
-router.post("/step-two", async (req, res, next) => {
+router.post("/step-two", validate(postAddressSchema), async (req, res, next) => {
   const { amount, currency } = req.body;
   const baseAmount = req.body["base-amount"];
   const baseCurrency = req.body["base-currency"];
@@ -29,6 +31,8 @@ router.post("/step-two", async (req, res, next) => {
       { currency, customerId: "demo" },
       { headers: { "x-api-key": "740136ee-b2ff-4e8d-8e8c-d09b2554acc3" } },
     );
+
+    addressSchema.parse(data);
 
     const { address, qrCodeURL } = data.data;
 
@@ -44,13 +48,15 @@ router.post("/step-two", async (req, res, next) => {
       },
     );
 
+    exchangeRateSchema.parse(exchangeRate);
+
     return res.render("step-two", {
       address,
       amount,
-      baseAmount,
+      baseAmount: formatNumber(baseAmount, baseCurrency),
       baseCurrency,
       currency,
-      exchangeRate: exchangeRate.data,
+      exchangeRate: formatNumber(exchangeRate.data, baseCurrency),
       qrCodeURL,
     });
   } catch (error) {

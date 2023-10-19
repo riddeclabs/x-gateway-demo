@@ -2,12 +2,14 @@ const axios = require("axios");
 const config = require("config");
 const express = require("express");
 
+const { validate } = require("../../middleware/validate");
+
+const { exchangeRateSchema, reqExchangeRateSchema } = require("./schema");
+
 const router = express.Router();
 const coreURL = config.get("coreURL");
 
-// validate
-
-router.get("/rate", async (req, res, next) => {
+router.get("/rate", validate(reqExchangeRateSchema), async (req, res, next) => {
   const {
     amount, target, source, direction,
   } = req.query;
@@ -19,7 +21,7 @@ router.get("/rate", async (req, res, next) => {
       },
     });
 
-    // exchangeRateSchema.parse(data);
+    exchangeRateSchema.parse(data);
 
     return res.status(200).json(data.data);
   } catch (error) {

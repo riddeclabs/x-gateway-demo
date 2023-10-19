@@ -1,11 +1,13 @@
 const baseCurrencies = [
   {
     currency: "EUR",
+    maxDeposit: 5000,
     minDeposit: 20,
     name: "Euro",
   },
   {
     currency: "USD",
+    maxDeposit: 5_278,
     minDeposit: 22,
     name: "US Dollar",
   },

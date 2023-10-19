@@ -10,9 +10,17 @@
   /**
    * Format numbers
    */
-  function formatter(value, { locale } = { locale: "en-US" }) {
+  function formatter(value, noGroup, { locale } = { locale: "en-US" }) {
     if (Number.isNaN(value)) {
       return null;
+    }
+
+    if (noGroup) {
+      return new Intl.NumberFormat(locale, {
+        maximumFractionDigits: 6,
+        roundingMode: "floor",
+        useGrouping: false,
+      }).format(value);
     }
 
     return new Intl.NumberFormat(locale, {
@@ -55,7 +63,6 @@
 
       exchangeRate.innerHTML = `1 ${selected} ≈ ${formatter(
         data,
-        selectedBase,
       )} ${selectedBase}`;
 
       exchangeRate.classList.remove("text-danger");
@@ -107,7 +114,7 @@
 
       const data = await response.json();
 
-      amountInput.setAttribute("value", formatter(data, selected));
+      amountInput.setAttribute("value", formatter(data, true));
     } catch (error) {
       amountInput.setAttribute("value", "0.00");
     }
@@ -118,9 +125,7 @@
    */
 
   function validateBaseAmount(value) {
-    const baseAmount = value || document.querySelector(
-      "input[name='base-amount']",
-    ).value;
+    const baseAmount = value || document.querySelector("input[name='base-amount']").value;
 
     const selectedBase = document.querySelector(
       "input[name='base-currency']",
@@ -230,9 +235,7 @@
 
     switchSelectedCurrencyDropdown(currencies[0].name, "currency", currencies);
 
-    document.querySelector(
-      "input[name='currency']",
-    ).value = currencies[0].currency;
+    document.querySelector("input[name='currency']").value = currencies[0].currency;
 
     await getExchangeRateAsync();
 
@@ -290,8 +293,6 @@
   setDropdownHandler("base-currency");
   setDropdownHandler("currency");
 
-  const baseAmountInput = document.querySelector(
-    "input[name='base-amount']",
-  );
+  const baseAmountInput = document.querySelector("input[name='base-amount']");
   baseAmountInput.addEventListener("input", (e) => delayedChangeBaseAmount(e.target.value));
 }());

@@ -19,10 +19,9 @@ router.get("/", async (req, res, next) => res.render("step-one", {
 }));
 
 router.post("/step-two", async (req, res, next) => {
-  const { currency } = req.body;
+  const { amount, currency } = req.body;
+  const baseAmount = req.body["base-amount"];
   const baseCurrency = req.body["base-currency"];
-  const baseAmount = req.body["base-currency-input-amount"];
-  const amount = req.body["currency-input-amount"];
 
   try {
     const { data } = await axios.post(
@@ -38,21 +37,21 @@ router.post("/step-two", async (req, res, next) => {
       {
         params: {
           amount: 1,
+          direction: "toSource",
           source: baseCurrency,
           target: currency,
-          direction: "toSource",
         },
       },
     );
 
     return res.render("step-two", {
-      currency,
-      baseCurrency,
-      baseAmount,
-      amount,
       address,
-      qrCodeURL,
+      amount,
+      baseAmount,
+      baseCurrency,
+      currency,
       exchangeRate: exchangeRate.data,
+      qrCodeURL,
     });
   } catch (error) {
     return next(error);

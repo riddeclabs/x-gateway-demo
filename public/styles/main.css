@@ -11871,8 +11871,14 @@ textarea.form-control-lg {
   }
 }
 .container {
-  max-width: 360px;
-  max-height: 580px;
+  width: 100%;
+  height: 100%;
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: 360px;
+    height: auto;
+  }
 }
 
 .error-text {

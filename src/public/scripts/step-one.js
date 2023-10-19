@@ -1,10 +1,10 @@
-(function stepOne() {
+// eslint-disable-next-line func-names
+(function () {
   const script = document.getElementById("script");
 
   const baseCurrencies = JSON.parse(
     script.getAttribute("data-base-currencies"),
   );
-
   const currencies = JSON.parse(script.getAttribute("data-currencies"));
 
   /**
@@ -25,14 +25,14 @@
    * Request exchange/rate api. Change view - Set exchange rate.
    */
 
-  async function getExchangeRate() {
+  async function getExchangeRateAsync() {
     const exchangeRate = document.getElementById("exchange-rate");
 
     try {
+      const selected = document.querySelector("input[name='currency']").value;
       const selectedBase = document.querySelector(
         "input[name='base-currency']",
       ).value;
-      const selected = document.querySelector("input[name='currency']").value;
 
       const params = new URLSearchParams({
         amount: 1,
@@ -76,24 +76,20 @@
     }
   }
 
-  getExchangeRate();
-
   /**
    * Request exchange/rate api. Change view - Set payment amount.
    */
 
-  async function getExchangeValue(amount) {
-    const amountCurrencyInput = document.querySelector(
-      "input[name='currency-input-amount']",
-    );
+  async function setPaymentAmountAsync(baseAmount) {
+    const amountInput = document.querySelector("input[name='amount']");
+    const selected = document.querySelector("input[name='currency']").value;
     const selectedBase = document.querySelector(
       "input[name='base-currency']",
     ).value;
-    const selected = document.querySelector("input[name='currency']").value;
 
     try {
       const params = new URLSearchParams({
-        amount,
+        amount: baseAmount,
         direction: "toTarget",
         source: selectedBase,
         target: selected.includes("tUSD")
@@ -111,16 +107,55 @@
 
       const data = await response.json();
 
-      amountCurrencyInput.setAttribute("value", formatter(data, selected));
+      amountInput.setAttribute("value", formatter(data, selected));
     } catch (error) {
-      amountCurrencyInput.setAttribute("value", "0.00");
+      amountInput.setAttribute("value", "0.00");
     }
   }
+
   /**
-   * Set base-currency-input onchange behavior.
+   * Validate base amount value
    */
 
-  function changeSelectedCurrency(value, attribute, array) {
+  function validateBaseAmount(value) {
+    const baseAmount = value || document.querySelector(
+      "input[name='base-amount']",
+    ).value;
+
+    const selectedBase = document.querySelector(
+      "input[name='base-currency']",
+    ).value;
+
+    const { maxDeposit, minDeposit } = baseCurrencies.find(
+      (item) => item.currency === selectedBase,
+    );
+    const validateBaseItem = document.getElementById("validate-base");
+
+    if (baseAmount < minDeposit || (maxDeposit && baseAmount > maxDeposit)) {
+      if (maxDeposit) {
+        validateBaseItem.innerHTML = `Amount should be in between ${selectedBase} ${minDeposit} and ${selectedBase} ${maxDeposit}`;
+      } else {
+        validateBaseItem.innerHTML = `Amount should be more than ${selectedBase} ${minDeposit}`;
+      }
+
+      validateBaseItem.removeAttribute("hidden");
+
+      const submitButton = document.querySelector("button[type='submit']");
+      submitButton.disabled = true;
+      return;
+    }
+
+    validateBaseItem.setAttribute("hidden", "true");
+
+    const submitButton = document.querySelector("button[type='submit']");
+    submitButton.disabled = false;
+  }
+  /**
+   * Set base-currency and currency dropdown change behavior.
+   * Updates base amount validation, exchange rate and payment amount value
+   */
+
+  async function switchSelectedCurrencyDropdown(value, attribute, array) {
     const iconPrevious = document.querySelector(
       `#${attribute}-selected svg[selected]`,
     );
@@ -142,17 +177,6 @@
     document.querySelector(
       `#${attribute}-selected span`,
     ).innerText = `${currencyItem.currency}`;
-
-    getExchangeRate();
-
-    const amountBaseCurrency = document.querySelector(
-      "input[name='base-currency-input-amount']",
-    ).value
-      ? document.querySelector("input[name='base-currency-input-amount']").value
-      : document.querySelector("input[name='base-currency-input-amount']")
-        .defaultValue;
-
-    getExchangeValue(amountBaseCurrency);
   }
 
   /**
@@ -160,7 +184,7 @@
    */
 
   function setDropdownHandler(attribute) {
-    const list = document.querySelectorAll(`[data-${attribute}-item]`);
+    const list = document.querySelectorAll(`[data-${attribute}]`);
 
     list.forEach((item) => {
       const newItem = item;
@@ -170,7 +194,7 @@
           `input[name='${attribute}']`,
         );
 
-        inputCurrency.value = item.getAttribute(`data-${attribute}-item`);
+        inputCurrency.value = item.getAttribute(`data-${attribute}`);
         inputCurrency.dispatchEvent(new Event("change"));
       };
 
@@ -178,27 +202,22 @@
     });
   }
 
-  let timeoutInput;
+  /**
+   * Set base-currency input onchange behavior.
+   * Update currency list depending on selected base currency
+   */
 
-  function delayedSetAmount(value) {
-    window.clearTimeout(timeoutInput);
-
-    timeoutInput = window.setTimeout(() => {
-      getExchangeValue(value);
-    }, 1500);
-  }
-
-  function setBaseCurrency(currency) {
+  async function changeBaseCurrency(currency) {
     const currencyList = document.querySelectorAll(
       "#currency-list .dropdown-item",
     );
 
-    const nextCurrencyList = currencies.filter(
-      (item) => item.providerId === 0 || item.currency === currency,
-    ).map((item) => item.currency);
+    const nextCurrencyList = currencies
+      .filter((item) => item.providerId === 0 || item.currency === currency)
+      .map((item) => item.currency);
 
     currencyList.forEach((item) => {
-      if (nextCurrencyList.includes(item.getAttribute("data-currency-item"))) {
+      if (nextCurrencyList.includes(item.getAttribute("data-currency"))) {
         item.removeAttribute("hidden");
         item.classList.add("d-flex");
       } else {
@@ -207,24 +226,72 @@
       }
     });
 
-    changeSelectedCurrency(currency, "base-currency", baseCurrencies);
+    switchSelectedCurrencyDropdown(currency, "base-currency", baseCurrencies);
+
+    switchSelectedCurrencyDropdown(currencies[0].name, "currency", currencies);
+
+    document.querySelector(
+      "input[name='currency']",
+    ).value = currencies[0].currency;
+
+    await getExchangeRateAsync();
+
+    const amountBaseCurrency = document.querySelector(
+      "input[name='base-amount']",
+    ).value
+      ? document.querySelector("input[name='base-amount']").value
+      : document.querySelector("input[name='base-amount']").defaultValue;
+
+    validateBaseAmount(amountBaseCurrency);
+    await setPaymentAmountAsync(amountBaseCurrency);
+  }
+
+  async function changeSelectedCurrency(currency) {
+    switchSelectedCurrencyDropdown(currency, "currency", currencies);
+
+    await getExchangeRateAsync();
+
+    const amountBaseCurrency = document.querySelector(
+      "input[name='base-amount']",
+    ).value
+      ? document.querySelector("input[name='base-amount']").value
+      : document.querySelector("input[name='base-amount']").defaultValue;
+
+    validateBaseAmount(amountBaseCurrency);
+    await setPaymentAmountAsync(amountBaseCurrency);
+  }
+
+  getExchangeRateAsync();
+
+  const submitButton = document.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+
+  let timeoutInput;
+
+  function delayedChangeBaseAmount(value) {
+    window.clearTimeout(timeoutInput);
+
+    timeoutInput = window.setTimeout(() => {
+      validateBaseAmount(value);
+      setPaymentAmountAsync(value);
+    }, 1000);
   }
 
   const selectedBaseCurrencyInput = document.querySelector(
     "input[name='base-currency']",
   );
-  selectedBaseCurrencyInput.addEventListener("change", (e) => setBaseCurrency(e.target.value));
+  selectedBaseCurrencyInput.addEventListener("change", (e) => changeBaseCurrency(e.target.value));
 
   const selectedCurrencyInput = document.querySelector(
     "input[name='currency']",
   );
-  selectedCurrencyInput.addEventListener("change", (e) => changeSelectedCurrency(e.target.value, "currency", currencies));
+  selectedCurrencyInput.addEventListener("change", (e) => changeSelectedCurrency(e.target.value));
 
   setDropdownHandler("base-currency");
   setDropdownHandler("currency");
 
-  const amountBaseCurrencyInput = document.querySelector(
-    "input[name='base-currency-input-amount']",
+  const baseAmountInput = document.querySelector(
+    "input[name='base-amount']",
   );
-  amountBaseCurrencyInput.addEventListener("input", (e) => delayedSetAmount(e.target.value));
+  baseAmountInput.addEventListener("input", (e) => delayedChangeBaseAmount(e.target.value));
 }());

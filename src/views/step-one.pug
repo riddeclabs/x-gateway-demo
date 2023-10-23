@@ -2,8 +2,7 @@ extends container
 include mixins/icons
 
 block content
-
-  form.d-flex.flex-column.h-100(action="/step-two" method="POST")
+  form.d-flex.flex-column.h-100(action="/step-two" method="POST" autocomplete="off")
     .flex-grow-1
       .mb-3.p-3.py-2.border.border-1.rounded-1.bg-gray.w-100
         label(for="base-currency").pb-2.text-secondary You get
@@ -74,7 +73,7 @@ block content
         |  & 
         a.link.text-decoration-none.text-tertiary(href="https://xgateway.tech/terms-of-use/") Terms of Use.
 
-    button.btn.btn-primary.w-100.mb-3.p-2.fw-bold(type="submit") Proceed
+    button.btn.btn-primary.w-100.mb-3.p-2.fw-bold.disabled(type="submit") Proceed
 
 block scripts 
   script#script(src="/scripts/step-one.js" type="application/javascript" data-base-currencies=baseCurrencies data-currencies=currencies)

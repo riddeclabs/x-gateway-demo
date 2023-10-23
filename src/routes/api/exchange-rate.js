@@ -11,13 +11,16 @@ const coreURL = config.get("coreURL");
 
 router.get("/rate", validate(reqExchangeRateSchema), async (req, res, next) => {
   const {
-    amount, target, source, direction,
+    amount, direction, source, target,
   } = req.query;
 
   try {
     const { data } = await axios.get(`${coreURL}/exchange/rate`, {
       params: {
-        amount, source, target, direction,
+        amount,
+        direction,
+        source,
+        target,
       },
     });
 

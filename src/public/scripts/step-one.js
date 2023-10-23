@@ -152,14 +152,14 @@
       validateBaseItem.removeAttribute("hidden");
 
       const submitButton = document.querySelector("button[type='submit']");
-      submitButton.disabled = true;
+      submitButton.classList.add("disabled");
       return;
     }
 
     validateBaseItem.setAttribute("hidden", "true");
 
     const submitButton = document.querySelector("button[type='submit']");
-    submitButton.disabled = false;
+    submitButton.classList.remove("disabled");
   }
   /**
    * Set base-currency and currency dropdown change behavior.

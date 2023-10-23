@@ -71,14 +71,7 @@ router.post("/step-two", validate(postAddressSchema), async (req, res, next) => 
 });
 
 // eslint-disable-next-line no-unused-vars
-router.get("/step-two", (req, res, next) => res.render("step-two", {
-  currencies,
-}));
-
-// eslint-disable-next-line no-unused-vars
-router.get("/contact", (req, res, next) => res.render("contact", {
-  currencies,
-}));
+router.get("/contact", (req, res, next) => res.render("contact"));
 
 // eslint-disable-next-line no-unused-vars
 router.get("/expired", (req, res, next) => res.render("expired"));

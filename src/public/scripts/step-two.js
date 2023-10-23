@@ -46,7 +46,7 @@
    * Set timer
    */
 
-  const countdownTime = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
+  const countdownTime = new Date(Date.parse(new Date()) + 20 * 60 * 1000);
   let timerInterval;
 
   function setTimerValue() {

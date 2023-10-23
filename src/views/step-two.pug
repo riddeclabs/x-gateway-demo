@@ -11,28 +11,26 @@ block content
         img.qrCode.mb-2.shadow-sm.rounded-1(src=`${qrCodeURL}`, alt="qrCode")
         
         .d-flex.align-items-center.justify-content-center
-          .fs-6(style="min-width: 0")= address 
+          div(style="min-width: 0")= address 
           button#address-copy.btn.btn-link.d-flex.align-items-center.px-2.text-decoration-none.border-0(data-copy=`${address}` data-bs-toggle="tooltip" data-bs-title="Copy to clipboard") 
             span.material-symbols-outlined.fs-5.text-secondary content_copy
     
+      .mb-2.p-3.py-2.border.border-1.rounded-1.bg-gray
+        .d-flex.justify-content-between Time remaining:
+          span#timer
+     
       .mb-3.p-3.py-2.border.border-1.rounded-1.bg-gray
-        .mb-1.fs-6.text-secondary You pay
+        .mb-1.text-secondary You get
+        .fs-4.fw-medium #{baseAmount} #{baseCurrency}
+
+      .mb-3.p-3.py-2.border.border-1.rounded-1.bg-gray
+        .mb-1.text-secondary You pay
         .d-flex.align-items-center
           .fs-4.fw-medium(style="min-width: 0") 
             span #{amount} #{currency}
           button#amount-copy.btn.btn-link.d-flex.align-items-center.px-2.border-0.text-decoration-none(data-copy=`${amount}` data-bs-toggle="tooltip" data-bs-title="Copy to clipboard") 
             span.material-symbols-outlined.fs-5.text-secondary content_copy
-    
-      .mb-3.p-3.py-2.border.border-1.rounded-1.bg-gray
-        .mb-1.fs-6.text-secondary You get
-        .fs-4.fw-medium #{baseAmount} #{baseCurrency}
         .mb-0.fs-6.text-secondary.exchange-rate 1 #{currency} = #{exchangeRate} #{baseCurrency}
-    
-      //- .d-flex.align-items-center.p-3.py-2.border.border-1.rounded-1.fs-6.bg-warning.text-truncate.mb-3 
-      //-   span.material-symbols-outlined.me-1.fs-4 report 
-      //-   p.text-truncate.m-0 Only send 
-      //-     span= currency
-      //-     |  to this address.
 
     div.mb-3
       button.btn.btn-primary.w-100.mb-2.p-2.fw-bold.text-truncate

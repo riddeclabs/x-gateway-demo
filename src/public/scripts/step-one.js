@@ -61,9 +61,15 @@
 
       const data = await response.json();
 
-      exchangeRate.innerHTML = `1 ${selected} ≈ ${formatter(
-        data,
-      )} ${selectedBase}`;
+      if (selected === selectedBase) {
+        exchangeRate.classList.add("invisible");
+      } else {
+        exchangeRate.innerHTML = `1 ${selected} ≈ ${formatter(
+          data,
+        )} ${selectedBase}`;
+
+        exchangeRate.classList.remove("invisible");
+      }
 
       exchangeRate.classList.remove("text-danger");
 

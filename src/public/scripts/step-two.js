@@ -41,4 +41,43 @@
 
   setCopyValue("address-copy");
   setCopyValue("amount-copy");
+
+  /**
+   * Set timer
+   */
+
+  const countdownTime = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
+  let timerInterval;
+
+  function setTimerValue() {
+    const timer = document.getElementById("timer");
+
+    const difTime = new Date(countdownTime - new Date());
+
+    if (difTime <= 0) {
+      window.clearInterval(timerInterval);
+      document.location.href = "http://localhost:7000/expired";
+      return;
+    }
+
+    const minutes = difTime.getMinutes();
+    const seconds = difTime.getSeconds();
+
+    if (minutes > 4) {
+      timer.classList.add("text-success");
+      timer.classList.remove("text-danger");
+    } else {
+      timer.classList.remove("text-success");
+      timer.classList.add("text-danger");
+    }
+
+    timer.innerHTML = `${minutes}m ${seconds}s`;
+  }
+
+  setTimerValue();
+
+  // eslint-disable-next-line func-names
+  timerInterval = window.setInterval(() => {
+    setTimerValue();
+  }, 1000);
 }());

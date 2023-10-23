@@ -80,6 +80,9 @@ router.get("/contact", (req, res, next) => res.render("contact", {
   currencies,
 }));
 
+// eslint-disable-next-line no-unused-vars
+router.get("/expired", (req, res, next) => res.render("expired"));
+
 router.use("/not-found", (_req, res) => res.render("error", {
   status: "404",
   message: "The page you requested could not be found.",

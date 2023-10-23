@@ -1,9 +1,9 @@
 extends container 
 
 block content
-   .text-center
-     h1.mb-4.fw-medium.display-1 Contact us
+  .d-flex.flex-column.h-100
+   .d-flex.flex-column.justify-content-center.flex-grow-1.text-center
+     h1.mb-2.fw-medium.display-1 Contact us
      p= message
-       span  Please contact our sales team to arrange a demo for peer-to-peer payments
     
-   .btn.btn-primary.w-100.mb-4.p-2.fw-bold.text-truncate Book a call
+   a.btn.btn-primary.w-100.mb-3.p-2.fw-bold.text-truncate(href="mailto:info@xgateway.tech" role="button") Book a call

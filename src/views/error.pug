@@ -1,12 +1,8 @@
-extends base
+extends container 
 
-block container
-  .container.h-100.bg-light
-    .row.h-100
-      .col.align-self-center
-        .card.m-auto.border-0.bg-light  
-          .card-body.p-5
-            .text-center
-              .mb-4.fw-medium.text-danger.error-text= status
-              p= message
-                span  Try again and start a new deposit.
+block content
+  .d-flex.flex-column.justify-content-center.h-100
+    .text-center
+      .fw-medium.text-danger.error-text= status
+      p.mb-5= message
+        span  Try again and start a new deposit.

@@ -5,8 +5,8 @@
   height: 100%;
 
   @include media-breakpoint-up(xl) {
-    max-width: 360px;
-    height: auto;
+    max-width: 500px;
+    height: max-content;
   }
 }
 

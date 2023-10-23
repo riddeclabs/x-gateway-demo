@@ -25,6 +25,12 @@ router.post("/step-two", validate(postAddressSchema), async (req, res, next) => 
   const baseAmount = req.body["base-amount"];
   const baseCurrency = req.body["base-currency"];
 
+  if (["JPY", "INR", "KES", "UZS", "BDT"].includes(currency)) {
+    return res.render("contact", {
+      message: "Please contact our sales team to arrange a demo for peer-to-peer payments",
+    });
+  }
+
   try {
     const { data } = await axios.post(
       `${coreURL}/channels`,

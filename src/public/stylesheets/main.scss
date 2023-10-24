@@ -33,21 +33,11 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-// .dropdown-menu {
-//   max-height: 200px;
-//   overflow-y: auto;
-// }
-
-// .dropdown-toggle {
-//   &:active,
-//   &:focus,
-//   &:hover,
-//   &:focus-visible {
-//     background-color: $light !important;
-//   }
-// }
-
-// .iconCurrency {
-//  height: 16px;
-//  width: 16px;
-// }
+.dropdown-toggle {
+  &:active,
+  &:focus,
+  &:hover,
+  &:focus-visible {
+    background-color: $light !important;
+  }
+}

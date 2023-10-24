@@ -3,8 +3,8 @@ const { object, string } = require("zod");
 const postAddressSchema = object({
   body: object({
     amount: string(),
-    "base-amount": string(),
-    "base-currency": string(),
+    baseAmount: string(),
+    baseCurrency: string(),
     currency: string(),
   }),
 });

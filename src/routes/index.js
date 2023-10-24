@@ -21,9 +21,9 @@ router.get("/", async (_req, res) => res.render("step-one", {
 }));
 
 router.post("/step-two", validate(postAddressSchema), async (req, res, next) => {
-  const { amount, currency } = req.body;
-  const baseAmount = req.body["base-amount"];
-  const baseCurrency = req.body["base-currency"];
+  const {
+    amount, baseAmount, baseCurrency, currency,
+  } = req.body;
 
   if (["JPY", "INR", "KES", "UZS", "BDT"].includes(currency)) {
     return res.render("contact", {
@@ -70,11 +70,9 @@ router.post("/step-two", validate(postAddressSchema), async (req, res, next) => 
   }
 });
 
-// eslint-disable-next-line no-unused-vars
-router.get("/contact", (req, res, next) => res.render("contact"));
+router.get("/contact", (req, res) => res.render("contact"));
 
-// eslint-disable-next-line no-unused-vars
-router.get("/expired", (req, res, next) => res.render("expired"));
+router.get("/expired", (req, res) => res.render("expired"));
 
 router.use("/not-found", (_req, res) => res.render("error", {
   status: "404",

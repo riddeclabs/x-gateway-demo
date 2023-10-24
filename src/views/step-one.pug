@@ -5,10 +5,10 @@ block content
   form.d-flex.flex-column.h-100(action="/step-two" method="POST" autocomplete="off")
     .flex-grow-1
       .mb-3.p-3.py-2.border.border-1.rounded-1.bg-gray.w-100
-        label(for="base-currency").pb-2.text-secondary You get
+        label(for="base-currency-input").pb-2.text-secondary You get
 
         .input-group.mb-2
-          input(type="hidden" id="base-currency" name="base-currency" value=baseCurrencies[0].currency)
+          input(type="hidden" id="base-currency-input" name="baseCurrency" value=baseCurrencies[0].currency)
 
           button.btn.btn-light.dropdown-toggle.d-flex.align-items-center.border.border-1.rounded-1.rounded-end-0(type="button" data-bs-toggle="dropdown") 
             #base-currency-selected.d-flex.align-items-center.me-2
@@ -19,14 +19,14 @@ block content
                   +icons.me-2(svg-icon-name=item.currency hidden)
               span= baseCurrencies[0].currency
 
-          ul.dropdown-menu.bg-light
+          ul#dropdown-base-currency.dropdown-menu.bg-light
             each item in baseCurrencies
-              li.dropdown-item.d-flex.justify-content-between(data-base-currency=item.currency)
+              li.dropdown-item.d-flex.justify-content-between(data-value=item.currency)
                 div.d-flex.align-items-center.fw-medium
                   +icons.me-2(svg-icon-name=item.currency)
                   span= item.currency
 
-          input.form-control.bg-light(name="base-amount" type="number" placeholder='0.00' defaultValue=0 min=0)
+          input.form-control.bg-light(name="baseAmount" type="number" placeholder="0.00" defaultValue=0 min=0)
 
         #validate-base.fs-6.text-danger(hidden) ...
 
@@ -34,7 +34,7 @@ block content
         label(for="currency").pb-2.text-secondary You pay
 
         .input-group.mb-3
-          input(type="hidden" id='currency' name="currency" value=currencies.length ? currencies[0].currency : "")
+          input(type="hidden" id="currency-input" name="currency" value=currencies.length ? currencies[0].currency : "")
 
           button.btn.btn-light.dropdown-toggle.d-flex.align-items-center.border.border-1.rounded-1.rounded-end-0(type="button" data-bs-toggle="dropdown") 
             #currency-selected.d-flex.align-items-center.me-2
@@ -46,15 +46,15 @@ block content
 
               span= currencies.length ? currencies[0].name : "  " 
 
-          ul#currency-list.dropdown-menu.overflow-scroll.bg-light
+          ul#dropdown-currency.dropdown-menu.overflow-scroll.bg-light
             each item in currencies.length ? currencies : []
               if item.providerId === 0
-                li.dropdown-item.d-flex.justify-content-between(data-currency=item.currency)
+                li.dropdown-item.d-flex.justify-content-between(data-value=item.currency)
                   div.d-flex.align-items-center.fw-medium
                     +icons.me-2(svg-icon-name=item.currency)
                     span= item.name
               else
-                li.dropdown-item.justify-content-between(data-currency=item.currency hidden)
+                li.dropdown-item.justify-content-between(data-value=item.currency hidden)
                   div.d-flex.align-items-center.fw-medium
                     +icons.me-2(svg-icon-name=item.currency)
                     span= item.name

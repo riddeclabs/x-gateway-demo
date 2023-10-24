@@ -27,7 +27,7 @@ const router = require("./routes");
 app.use("/", router);
 
 app.get("*", (_req, res) => {
-  res.redirect("/not-found");
+  res.redirect("/");
 });
 
 // eslint-disable-next-line no-unused-vars

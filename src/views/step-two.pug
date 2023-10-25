@@ -1,0 +1,42 @@
+extends container 
+
+block content 
+  .d-flex.flex-column.h-100
+    .flex-grow-1
+      .mb-2.text-center
+        p.mb-2.fs-6.text-secondary Pay to 
+          span= currency
+          |  address
+        img.qrCode.mb-2.shadow-sm.rounded-1(src=`${qrCodeURL}`, alt="qrCode")
+
+        .d-flex.align-items-center.justify-content-center
+          div(style="min-width: 0")= address 
+          button#address-copy.btn.btn-link.d-flex.align-items-center.px-2.text-decoration-none.border-0(data-copy=`${address}` data-bs-toggle="tooltip" data-bs-title="Copy to clipboard") 
+            span.material-symbols-outlined.fs-5.text-secondary content_copy
+
+      .mb-3.p-3.py-2.border.border-1.rounded-1.bg-gray
+        .d-flex.justify-content-between Time remaining:
+          span#timer
+
+      .mb-3.p-3.py-2.border.border-1.rounded-1.bg-gray
+        .mb-1.text-secondary You get
+        .fs-4.fw-medium #{baseAmount} #{baseCurrency}
+
+      .mb-3.p-3.py-2.border.border-1.rounded-1.bg-gray
+        .mb-1.text-secondary You pay
+        .d-flex.align-items-center
+          .fs-4.fw-medium(style="min-width: 0") 
+            span #{amount} #{currency}
+          button#amount-copy.btn.btn-link.d-flex.align-items-center.px-2.border-0.text-decoration-none(data-copy=`${amount}` data-bs-toggle="tooltip" data-bs-title="Copy to clipboard") 
+            span.material-symbols-outlined.fs-5.text-secondary content_copy
+        .mb-0.fs-6.text-secondary.exchange-rate 1 #{currency} = #{exchangeRate} #{baseCurrency}
+
+    div.mb-3
+      button.btn.btn-primary.w-100.mb-2.p-2.fw-bold.text-truncate
+        span.spinner-border.spinner-border-sm.me-2(role='status' aria-hidden="true")
+        | Awaiting Payment
+
+      a.btn.btn-outline-primary.w-100.p-2.fw-bold.text-truncate.text-reset(href="mailto:info@xgateway.tech" role="button") Book a meeting with us
+
+block scripts 
+  script#script(src="/scripts/step-two.js" type="application/javascript")

@@ -1,7 +1,3 @@
-function formatCurrencyName(name) {
-  return name.includes("tUSD") ? name.replace("tUSD", "USD") : name;
-}
-
 function formatNumber(
   value,
   currency = null,
@@ -76,4 +72,4 @@ function formatNumber(
   return new Intl.NumberFormat(locale).format(value);
 }
 
-module.exports = { formatCurrencyName, formatNumber };
+module.exports = { formatNumber };

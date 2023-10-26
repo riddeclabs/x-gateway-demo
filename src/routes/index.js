@@ -12,6 +12,7 @@ const apiRouter = require("./api");
 const { postAddressSchema, addressSchema, exchangeRateSchema } = require("./schema");
 
 const coreURL = config.get("coreURL");
+const apiKey = config.get("apiKey");
 
 router.use("/api", apiRouter);
 
@@ -35,7 +36,7 @@ router.post("/step-two", validate(postAddressSchema), async (req, res, next) => 
     const { data } = await axios.post(
       `${coreURL}/channels`,
       { currency, customerId: "demo" },
-      { headers: { "x-api-key": "740136ee-b2ff-4e8d-8e8c-d09b2554acc3" } },
+      { headers: { "x-api-key": `${apiKey}` } },
     );
 
     addressSchema.parse(data);

@@ -13,6 +13,7 @@ const { postAddressSchema, addressSchema, exchangeRateSchema } = require("./sche
 
 const coreURL = config.get("coreURL");
 const apiKey = config.get("apiKey");
+const baseURL = config.get("baseURL");
 
 router.use("/api", apiRouter);
 
@@ -62,6 +63,7 @@ router.post("/step-two", validate(postAddressSchema), async (req, res, next) => 
       amount,
       baseAmount: formatNumber(baseAmount, baseCurrency),
       baseCurrency,
+      baseURL,
       currency,
       exchangeRate: formatNumber(exchangeRate.data, baseCurrency),
       qrCodeURL,

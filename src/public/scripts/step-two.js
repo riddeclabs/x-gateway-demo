@@ -1,5 +1,9 @@
 // eslint-disable-next-line func-names
 (function () {
+  const script = document.getElementById("script");
+
+  const baseURL = script.getAttribute("data-base-url");
+
   /**
    * Enable bootstrap tooltips
    */
@@ -56,7 +60,7 @@
 
     if (difTime <= 0) {
       window.clearInterval(timerInterval);
-      document.location.href = "http://localhost:7000/expired";
+      document.location.href = `${baseURL}/expired`;
       return;
     }
 

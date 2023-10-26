@@ -49,7 +49,7 @@ router.post("/step-two", validate(postAddressSchema), async (req, res, next) => 
           amount: 1,
           direction: "toSource",
           source: baseCurrency,
-          target: currency,
+          target: currency.includes("tUSD") ? currency.replace("tUSD", "USD") : currency,
         },
       },
     );

@@ -87,7 +87,7 @@
    */
 
   async function getExchangeRateAsync() {
-    const exchangeRate = document.getElementById("exchange-rate");
+    const exchangeRate = document.querySelector("#exchange-rate span");
 
     try {
       const selected = document.querySelector("input[name='currency']").value;
@@ -113,6 +113,8 @@
       }
 
       const data = await response.json();
+
+      exchangeRate.classList.remove("spinner-border");
 
       if (selected === selectedBase) {
         exchangeRate.classList.add("invisible");
@@ -216,6 +218,13 @@
   }
 
   async function getExchange() {
+    const exchangeRate = document.querySelector("#exchange-rate span");
+    exchangeRate.classList.add("spinner-border");
+    exchangeRate.innerHTML = "";
+
+    const amountInput = document.querySelector("input[name='amount']");
+    amountInput.setAttribute("value", "0.00");
+
     await getExchangeRateAsync();
 
     const amountBaseCurrency = document.querySelector(
@@ -249,7 +258,7 @@
     timeoutInput = window.setTimeout(() => {
       validateBaseAmount(value);
       setPaymentAmountAsync(value);
-    }, 1000);
+    }, 700);
   }
 
   document

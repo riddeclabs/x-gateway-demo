@@ -21,10 +21,10 @@ block content
 
           ul#dropdown-base-currency.dropdown-menu.bg-light
             each item in baseCurrencies
-              li.dropdown-item.d-flex.justify-content-between(data-value=item.currency)
-                div.d-flex.align-items-center.fw-medium
-                  +icons.me-2(svg-icon-name=item.currency)
-                  span= item.currency
+              li.dropdown-item(data-value=item.currency)
+                div.d-flex.align-items-center.fw-medium.gap-2
+                  +icons(svg-icon-name=item.currency)
+                  span.flex-grow-1= item.currency
 
           input.form-control.bg-light(name="baseAmount" type="number" placeholder="0.00" defaultValue=0 min=0)
 
@@ -49,19 +49,20 @@ block content
           ul#dropdown-currency.dropdown-menu.overflow-scroll.bg-light
             each item in currencies.length ? currencies : []
               if item.providerId === 0
-                li.dropdown-item.d-flex.justify-content-between(data-value=item.currency)
-                  div.d-flex.align-items-center.fw-medium
-                    +icons.me-2(svg-icon-name=item.currency)
-                    span= item.name
+                li.dropdown-item(data-value=item.currency)
+                  div.d-flex.align-items-center.fw-medium.gap-2
+                    +icons(svg-icon-name=item.currency)
+                    span.flex-grow-1= item.name
               else
-                li.dropdown-item.justify-content-between(data-value=item.currency hidden)
-                  div.d-flex.align-items-center.fw-medium
-                    +icons.me-2(svg-icon-name=item.currency)
-                    span= item.name
+                li.dropdown-item(data-value=item.currency hidden)
+                  div.d-flex.align-items-center.fw-medium.gap-2
+                    +icons(svg-icon-name=item.currency)
+                    span.flex-grow-1= item.name
 
           input.form-control.bg-light(name="amount" type="text" readonly value="0.00" defaultValue=0)
 
-        #exchange-rate.mb-0.fs-6.text-secondary  ...
+        #exchange-rate.mb-0.fs-6.text-secondary
+          span.spinner-border.spinner-border-sm(role='status' aria-hidden="true")
 
       .d-flex.align-items-center.mb-3.p-3.py-2.border.border-1.rounded-1.fs-6.bg-warning.text-truncate 
         span.material-symbols-outlined.me-1.fs-4 report 
@@ -69,9 +70,9 @@ block content
 
       .mb-3.fs-6.text-center.text-secondary  
         | By proceeding with this deposit you are agreeing with 
-        a.link.text-decoration-none.text-tertiary(href="https://xgateway.tech/privacy-policy/") Privacy Policy
+        a.link.text-decoration-none.text-tertiary(href="https://xgateway.tech/privacy-policy/" target="_blank") Privacy Policy
         |  & 
-        a.link.text-decoration-none.text-tertiary(href="https://xgateway.tech/terms-of-use/") Terms of Use.
+        a.link.text-decoration-none.text-tertiary(href="https://xgateway.tech/terms-of-use/" target="_blank") Terms of Use.
 
     button.btn.btn-primary.w-100.mb-3.p-2.fw-bold.disabled(type="submit") Proceed
 

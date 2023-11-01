@@ -48,7 +48,7 @@ block content
 
           ul#dropdown-currency.dropdown-menu.overflow-scroll.bg-light
             each item in currencies.length ? currencies : []
-              if item.providerId === 0
+              if item.providerId === 0 || item.providerId === 2
                 li.dropdown-item(data-value=item.currency)
                   div.d-flex.align-items-center.fw-medium.gap-2
                     +icons(svg-icon-name=item.currency)

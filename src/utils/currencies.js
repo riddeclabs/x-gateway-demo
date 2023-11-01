@@ -90,6 +90,14 @@ const currencies = [
     network: "P2P",
     providerId: 1,
   },
+  {
+    currency: "EUR",
+    minDeposit: 1,
+    name: "EUR",
+    nameLong: "Euro",
+    network: "Onramp",
+    providerId: 2,
+  },
 ];
 
 module.exports = currencies;

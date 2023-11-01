@@ -33,6 +33,12 @@ router.post("/step-two", validate(postAddressSchema), async (req, res, next) => 
     });
   }
 
+  if (currency === "EUR") {
+    return res.render("contact", {
+      message: "Please contact our sales team to arrange a demo for Onramp service",
+    });
+  }
+
   try {
     const { data } = await axios.post(
       `${coreURL}/channels`,

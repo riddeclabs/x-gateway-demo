@@ -1,0 +1,32 @@
+mixin icons 
+  - var icon = attributes["svg-icon-name"]
+
+  case icon
+    when 'BTC'
+      include ../icons/btc
+    when 'ETH'
+      include ../icons/eth
+    when 'USDT'
+      include ../icons/usdt
+    when 'USDC'
+      include ../icons/usdc
+    when 'tUSDT'
+      include ../icons/usdt
+    when 'tUSDC'
+      include ../icons/usdc
+    when 'JPY'
+      include ../icons/jpy
+    when 'INR'
+      include ../icons/inr
+    when 'KES'
+      include ../icons/kes
+    when 'UZS'
+      include ../icons/uzs
+    when 'BDT'
+      include ../icons/bdt
+    when 'EUR'
+      include ../icons/eur
+    when 'USD'
+      include ../icons/usd
+    default
+      include ../icons/fiat

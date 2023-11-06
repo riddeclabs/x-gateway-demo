@@ -9,7 +9,7 @@ RUN npm install
 COPY config config
 COPY src src
 
-# RUN npm run sass
+RUN npm run sass
 
 ENV NODE_ENV production
 

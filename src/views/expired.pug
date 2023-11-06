@@ -1,0 +1,10 @@
+extends container 
+
+block content
+  .d-flex.flex-column.h-100
+    .d-flex.flex-column.justify-content-center.h-100.text-center
+      h1.fw-medium.text-danger.display-1 Time out
+      p.mb-2 Your invoice has expired.
+        span  Try again and start a new deposit.
+
+    a.btn.btn-primary.w-100.mb-3.p-2.fw-bold.text-truncate(href=`/` role="button") Restart

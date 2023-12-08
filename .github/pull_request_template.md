@@ -35,7 +35,7 @@ This pull request [adds/removes/fixes/replaces] the [feature/bug/etc].
 
 ### Coverage
 
-Do you know if the code is covered with snapshots and unit tests?
+Would you happen to know if the code is covered with snapshots and unit tests?
 
 - [ ] 👍 yes
 - [ ] 🙅 no, because they are not needed

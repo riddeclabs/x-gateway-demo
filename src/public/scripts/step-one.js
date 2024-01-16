@@ -131,6 +131,8 @@
       const submitButton = document.querySelector("button[type='submit']");
       submitButton.disabled = false;
     } catch (error) {
+      exchangeRate.classList.remove("spinner-border");
+
       if (error.message === "422") {
         exchangeRate.innerHTML = "The exchange rate value is not valid.";
       } else {

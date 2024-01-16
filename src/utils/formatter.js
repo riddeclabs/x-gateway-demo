@@ -59,7 +59,7 @@ function formatNumber(
     }).format(value);
   }
 
-  const currenciesFiat = ["EUR", "USD", "INR", "JPY", "KES", "UZS", "BDT"];
+  const currenciesFiat = ["EUR", "USD", "INR", "JPY", "KES", "UZS", "BDT", "RUB"];
 
   if (currenciesFiat.includes(currency)) {
     return new Intl.NumberFormat(locale, {

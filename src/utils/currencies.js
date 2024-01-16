@@ -98,6 +98,15 @@ const currencies = [
     network: "Onramp",
     providerId: 2,
   },
+  {
+    currency: "RUB",
+    maxDeposit: 200_000,
+    minDeposit: 2_000,
+    name: "RUB",
+    nameLong: "Russian Ruble",
+    network: "P2P",
+    providerId: 1,
+  },
 ];
 
 module.exports = currencies;

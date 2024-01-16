@@ -27,7 +27,7 @@ router.post("/step-two", validate(postAddressSchema), async (req, res, next) => 
     amount, baseAmount, baseCurrency, currency,
   } = req.body;
 
-  if (["JPY", "INR", "KES", "UZS", "BDT"].includes(currency)) {
+  if (["JPY", "INR", "KES", "UZS", "BDT", "RUB"].includes(currency)) {
     return res.render("contact", {
       message: "Please contact our sales team to arrange a demo for peer-to-peer payments",
     });

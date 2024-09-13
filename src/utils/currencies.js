@@ -17,7 +17,7 @@ const currencies = [
   },
   {
     blockchainUrl: "https://www.blockchain.com/explorer/transactions/eth/",
-    currency: "USDT",
+    currency: "eUSDT",
     minDeposit: 5,
     name: "USDT (ETH)",
     network: "Ethereum",
@@ -25,7 +25,7 @@ const currencies = [
   },
   {
     blockchainUrl: "https://www.blockchain.com/explorer/transactions/eth/",
-    currency: "USDC",
+    currency: "eUSDC",
     minDeposit: 5,
     name: "USDC (ETH)",
     network: "Ethereum",

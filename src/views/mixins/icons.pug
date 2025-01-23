@@ -2,6 +2,8 @@ mixin icons
   - var icon = attributes["svg-icon-name"]
 
   case icon
+    when 'GBP'
+      include ../icons/gbp
     when 'BTC'
       include ../icons/btc
     when 'ETH'
@@ -10,9 +12,9 @@ mixin icons
       include ../icons/usdt
     when 'USDC'
       include ../icons/usdc
-    when 'tUSDT'
+    when ('tUSDT', 'pUSDT')
       include ../icons/usdt
-    when 'tUSDC'
+    when ('tUSDC', 'pUSDC')
       include ../icons/usdc
     when 'JPY'
       include ../icons/jpy

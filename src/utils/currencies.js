@@ -49,7 +49,7 @@ const currencies = [
   },
   {
     blockchainUrl: "https://polygonscan.com/tx/",
-    currency: "wpUSDT",
+    currency: "pUSDT",
     minDeposit: 5,
     name: "USDT (Polygon)",
     network: "Polygon",
@@ -57,7 +57,7 @@ const currencies = [
   },
   {
     blockchainUrl: "https://polygonscan.com/tx/",
-    currency: "wpUSDC",
+    currency: "pUSDC",
     minDeposit: 5,
     name: "USDC (Polygon)",
     network: "Polygon",

@@ -57,7 +57,7 @@ router.post(
       });
     }
 
-    if (currency === "EUR") {
+    if (["EUR", "GBP"].includes(currency)) {
       return res.render("contact", {
         message:
           "Please contact our sales team to arrange a demo for Onramp service",

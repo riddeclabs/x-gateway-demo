@@ -1,0 +1,35 @@
+name: Check Dev and Deploy
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+    inputs:
+      forceDeploy:
+        default: false
+        description: "Forcibly deploys without running tests"
+        required: true
+        type: boolean
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  general:
+    if: ${{ !inputs.forceDeploy }}
+    secrets: inherit
+    uses: ./.github/workflows/_general-check.yml
+
+  deployment:
+    if: ${{ inputs.forceDeploy || success() }}
+    needs: general
+    secrets: inherit
+    uses: ./.github/workflows/_deployment.yml
+    with:
+      environment: development

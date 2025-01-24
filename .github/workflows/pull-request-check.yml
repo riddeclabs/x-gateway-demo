@@ -1,0 +1,19 @@
+name: Check Pull Request in Main
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.head_ref }}
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  general:
+    secrets: inherit
+    uses: ./.github/workflows/_general-check.yml

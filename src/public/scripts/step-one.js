@@ -85,15 +85,14 @@
   /**
    * Request exchange/rate api. Change view - Set exchange rate.
    */
-
   async function getExchangeRateAsync() {
-    const exchangeRate = document.querySelector("#exchange-rate span");
+    const exchangeRate = document.querySelector("#exchange-rate");
+    const exchangeRateSpinner = document.querySelector("#exchange-rate .spinner");
+    const exchangeRateText = document.querySelector("#exchange-rate .text-content");
 
     try {
       const selected = document.querySelector("input[name='currency']").value;
-      const selectedBase = document.querySelector(
-        "input[name='baseCurrency']",
-      ).value;
+      const selectedBase = document.querySelector("input[name='baseCurrency']").value;
 
       const params = new URLSearchParams({
         amount: 1,
@@ -114,15 +113,13 @@
 
       const data = await response.json();
 
-      exchangeRate.classList.remove("spinner-border");
+      exchangeRateSpinner.classList.remove("spinner-border");
 
       if (selected === selectedBase) {
+        exchangeRateText.innerHTML = "";
         exchangeRate.classList.add("invisible");
       } else {
-        exchangeRate.innerHTML = `1 ${selected} ≈ ${formatter(
-          data,
-        )} ${selectedBase}`;
-
+        exchangeRateText.innerHTML = `1 ${selected} ≈ ${formatter(data)} ${selectedBase}`;
         exchangeRate.classList.remove("invisible");
       }
 
@@ -132,9 +129,9 @@
       submitButton.disabled = false;
     } catch (error) {
       if (error.message === "422") {
-        exchangeRate.innerHTML = "The exchange rate value is not valid.";
+        exchangeRateText.innerHTML = "The exchange rate value is not valid.";
       } else {
-        exchangeRate.innerHTML = "The exchange rate is temporarily unavailable.";
+        exchangeRateText.innerHTML = "The exchange rate is temporarily unavailable.";
       }
 
       exchangeRate.classList.add("text-danger");
@@ -218,9 +215,11 @@
   }
 
   async function getExchange() {
-    const exchangeRate = document.querySelector("#exchange-rate span");
-    exchangeRate.classList.add("spinner-border");
-    exchangeRate.innerHTML = "";
+    const exchangeRateSpinner = document.querySelector("#exchange-rate .spinner");
+    const exchangeRateText = document.querySelector("#exchange-rate .text-content");
+
+    exchangeRateSpinner.classList.add("spinner-border");
+    exchangeRateText.innerHTML = "";
 
     const amountInput = document.querySelector("input[name='amount']");
     amountInput.setAttribute("value", "0.00");

@@ -39,6 +39,11 @@ const baseCurrencies = [
     minDeposit: 300,
     name: "Bangladeshi Taka",
   },
+  {
+    currency: "GBP",
+    minDeposit: 20,
+    nameLong: "Pound Sterling",
+  },
 ];
 
 module.exports = baseCurrencies;

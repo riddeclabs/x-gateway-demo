@@ -1,0 +1,17 @@
+on:
+  workflow_call:
+
+jobs:
+  code-check:
+    secrets: inherit
+    uses: ./.github/workflows/_general-code-check.yml
+
+  snapshots-check:
+    needs: code-check
+    secrets: inherit
+    uses: ./.github/workflows/_general-snapshots-check.yml
+
+  tests-check:
+    needs: code-check
+    secrets: inherit
+    uses: ./.github/workflows/_general-tests-check.yml
